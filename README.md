@@ -15,6 +15,8 @@
 
 在使用之前请先确保你已经在浏览器安装了 [Tampermonkey/油猴](https://www.tampermonkey.net/?ext=dhdg&locale=zh)，如果你无法通过官方的 Chrome Store 渠道获取，请使用国内的搜索引擎搜索油猴的离线安装版。
 
+然后在 [【GreasyFork: 397885-哔哩哔哩播放器增强】](https://greasyfork.org/zh-CN/scripts/397885-%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E6%92%AD%E6%94%BE%E5%99%A8%E5%A2%9E%E5%BC%BA) 进行安装。
+
 ## License
 
 ```
