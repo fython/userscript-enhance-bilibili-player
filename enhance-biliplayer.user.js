@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         哔哩哔哩播放器增强
 // @namespace    https://github.com/fython/userscript-enhance-bilibili-player
-// @version      0.1.0
+// @version      0.1.1
 // @description  为哔哩哔哩播放器加上复制当前播放位置链接的菜单选项，增强使用体验
 // @author       Siubeng (fython)
 // @license      MIT
@@ -20,17 +20,17 @@
     function copyToClipboard(text) {
         if (window.clipboardData && window.clipboardData.setData) {
             // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
-            return clipboardData.setData("Text", text);
-        } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
-            let textarea = document.createElement("textarea");
+            return window.clipboardData.setData('Text', text);
+        } else if (document.queryCommandSupported && document.queryCommandSupported('copy')) {
+            let textarea = document.createElement('textarea');
             textarea.textContent = text;
-            textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in Microsoft Edge.
+            textarea.style.position = 'fixed'; // Prevent scrolling to bottom of page in Microsoft Edge.
             document.body.appendChild(textarea);
             textarea.select();
             try {
-                return document.execCommand("copy"); // Security exception may be thrown by some browsers.
+                return document.execCommand('copy'); // Security exception may be thrown by some browsers.
             } catch (ex) {
-                console.warn("Failed to copy to clipboard", ex);
+                console.warn('Failed to copy to clipboard', ex);
                 return false;
             } finally {
                 document.body.removeChild(textarea);
@@ -59,7 +59,7 @@
             let copyA = document.createElement('a');
             copyA.className = 'context-menu-a js-action';
             copyA.setAttribute('title', null);
-            copyA.appendChild(document.createTextNode("复制当前时间的视频链接"));
+            copyA.appendChild(document.createTextNode('复制当前时间的视频链接'));
             copyLi.appendChild(copyA);
             // 应用选项 Hover 样式
             copyLi.addEventListener('mouseenter', () => {
@@ -109,7 +109,6 @@
     // 注入播放器
     lazyInject(PLAYER_SELECTOR, (player) => {
         let playerObserver = new MutationObserver(() => {
-            window.console.log('Player observer called.');
             let menu = player.querySelector(MENU_SELECTOR);
             if (menu) {
                 playerObserver.disconnect();
