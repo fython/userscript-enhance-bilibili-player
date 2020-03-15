@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         哔哩哔哩播放器增强
 // @namespace    https://github.com/fython/userscript-enhance-bilibili-player
-// @version      0.1.1
+// @version      0.1.2
 // @description  为哔哩哔哩播放器加上复制当前播放位置链接的菜单选项，增强使用体验
 // @author       Siubeng (fython)
 // @license      MIT
@@ -14,10 +14,12 @@
 
     const PLAYER_SELECTOR = '#bilibiliPlayer';
     const MENU_SELECTOR = 'div.bilibili-player-context-menu-container.black.bilibili-player-context-menu-origin';
+    const TOAST_CONTAINER_SELECTOR = 'div.bilibili-player-video-toast-bottom';
     const COPY_MENU_ID = 'copy-menu-action-item';
+    const TOAST_ID = 'enhance-bili-toast'
 
     // 复制文本到剪贴板
-    function copyToClipboard(text) {
+    let copyToClipboard = (text) => {
         if (window.clipboardData && window.clipboardData.setData) {
             // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
             return window.clipboardData.setData('Text', text);
@@ -37,6 +39,41 @@
             }
         }
     }
+
+    // 以 B 站样式显示 Toast
+    let lastToastCallback = null;
+    let hideToast = () => {
+        let container = document.querySelector(TOAST_CONTAINER_SELECTOR);
+        let currentToast = document.getElementById(TOAST_ID);
+        if (currentToast) {
+            container.removeChild(currentToast);
+        }
+        if (lastToastCallback) {
+            clearTimeout(lastToastCallback);
+        }
+        lastToastCallback = null;
+    };
+    let showToast = (message) => {
+        let container = document.querySelector(TOAST_CONTAINER_SELECTOR);
+        if (container) {
+            hideToast();
+            let toastItem = document.createElement('div');
+            toastItem.id = TOAST_ID;
+            toastItem.className = 'bilibili-player-video-toast-item';
+            toastItem.onclick = hideToast;
+            let toastText = document.createElement('div');
+            toastText.className = 'bilibili-player-video-toast-item-text';
+            let toastTextSpan = document.createElement('span');
+            toastTextSpan.innerText = message;
+            toastText.appendChild(toastTextSpan);
+            toastItem.appendChild(toastText);
+            container.appendChild(toastItem);
+            lastToastCallback = setTimeout(hideToast, 3000);
+        } else {
+            // Fallback：当 Toast 版本已经改变时，使用普通的 alert
+            alert(message);
+        }
+    };
 
     // 以 Lazy 方式对选择的元素进行操作
     let lazyInject = (selector, onInject) => {
@@ -79,9 +116,9 @@
                         let h = parseInt(time / 60 / 60);
                         let m = parseInt(time / 60 % 60);
                         let s = parseInt(time % 60);
-                        alert('已复制当前位置（' + (h > 0 ? '' + h + ':' : '') + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s) + '）的视频链接到剪贴板。');
+                        showToast('已复制当前位置（' + (h > 0 ? '' + h + ':' : '') + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s) + '）的视频链接到剪贴板。');
                     } else {
-                        alert('复制链接失败，您的浏览器可能不允许脚本直接修改剪贴板。');
+                        showToast('复制链接失败，您的浏览器可能不允许脚本直接修改剪贴板。');
                     }
                 }
             };
