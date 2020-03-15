@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         哔哩哔哩播放器增强
 // @namespace    https://github.com/fython/userscript-enhance-bilibili-player
-// @version      0.1.2
-// @description  为哔哩哔哩播放器加上复制当前播放位置链接的菜单选项，增强使用体验
+// @version      0.1.3
+// @description  为哔哩哔哩播放器加上复制当前播放位置链接、画中画功能
 // @author       Siubeng (fython)
 // @license      MIT
+// @require      https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js
 // @supportURL   https://github.com/fython/userscript-enhance-bilibili-player
 // @match        *://www.bilibili.com/video/av*
 // ==/UserScript==
@@ -16,6 +17,7 @@
     const MENU_SELECTOR = 'div.bilibili-player-context-menu-container.black.bilibili-player-context-menu-origin';
     const TOAST_CONTAINER_SELECTOR = 'div.bilibili-player-video-toast-bottom';
     const COPY_MENU_ID = 'copy-menu-action-item';
+    const PIP_MENU_ID = 'pip-action-item';
     const TOAST_ID = 'enhance-bili-toast'
 
     // 复制文本到剪贴板
@@ -57,17 +59,11 @@
         let container = document.querySelector(TOAST_CONTAINER_SELECTOR);
         if (container) {
             hideToast();
-            let toastItem = document.createElement('div');
-            toastItem.id = TOAST_ID;
-            toastItem.className = 'bilibili-player-video-toast-item';
-            toastItem.onclick = hideToast;
-            let toastText = document.createElement('div');
-            toastText.className = 'bilibili-player-video-toast-item-text';
-            let toastTextSpan = document.createElement('span');
-            toastTextSpan.innerText = message;
-            toastText.appendChild(toastTextSpan);
-            toastItem.appendChild(toastText);
-            container.appendChild(toastItem);
+            let toastItem = $('<div id="' + TOAST_ID + '" class="bilibili-player-video-toast-item" style="margin-top: 4px;"></div>');
+            let toastText = $('<div class="bilibili-player-video-toast-item-text"></div>');
+            toastText.append($('<span></span>').text(message));
+            toastItem.append(toastText);
+            container.appendChild(toastItem[0]);
             lastToastCallback = setTimeout(hideToast, 3000);
         } else {
             // Fallback：当 Toast 版本已经改变时，使用普通的 alert
@@ -88,25 +84,22 @@
 
     // 注入播放器菜单
     let injectMenu = (menuDiv) => {
+        // 创建菜单选项
+        let createMenuAction = (menuId, menuText, onClick) => {
+            let li = $('<li id="' + menuId + '" class="context-line context-menu-action"></li>');
+            let a = $('<a class="context-menu-a js-action" title></a>').text(menuText);
+            li.append(a);
+            // 应用选项 Hover 样式
+            li.mouseenter(() => li.addClass('hover'));
+            li.mouseleave(() => li.removeClass('hover'));
+            // 选项点击事件
+            li.click(onClick);
+            return li[0];
+        };
+
         // 创建复制菜单选项
         let createCopyMenuAction = () => {
-            let copyLi = document.createElement('li');
-            copyLi.id = COPY_MENU_ID;
-            copyLi.className = 'context-line context-menu-action';
-            let copyA = document.createElement('a');
-            copyA.className = 'context-menu-a js-action';
-            copyA.setAttribute('title', null);
-            copyA.appendChild(document.createTextNode('复制当前时间的视频链接'));
-            copyLi.appendChild(copyA);
-            // 应用选项 Hover 样式
-            copyLi.addEventListener('mouseenter', () => {
-                copyLi.classList.add('hover');
-            });
-            copyLi.addEventListener('mouseleave', () => {
-                copyLi.classList.remove('hover');
-            });
-            // 选项点击事件
-            copyLi.onclick = () => {
+            return createMenuAction(COPY_MENU_ID, '复制当前时间的视频链接', () => {
                 let video = document.querySelector('video');
                 if (video) {
                     let url = new URL(window.location.href);
@@ -121,17 +114,39 @@
                         showToast('复制链接失败，您的浏览器可能不允许脚本直接修改剪贴板。');
                     }
                 }
-            };
-            return copyLi;
+            });
+        };
+
+        // 创建画中画菜单选项
+        let createPipMenuAction = () => {
+            return createMenuAction(PIP_MENU_ID, '弹出画中画播放（Beta）', () => {
+                let video = document.querySelector('video');
+                if (video) {
+                    if (video.requestPictureInPicture) {
+                        video.disablePictureInPicture = false;
+                        video.requestPictureInPicture();
+                    } else {
+                        showToast('您的浏览器暂不支持画中画播放，可能需要最新的 Chrome。');
+                    }
+                }
+            });
         };
 
         // 监听菜单变化事件
         let onMenuMutated = (menu) => {
             let ul = menu.querySelector('ul');
             if (menu.classList.contains('active')) {
+                // 不要注入弹幕菜单
+                if (menu.querySelector('.context-menu-danmaku')) {
+                    return;
+                }
                 let copyMenuAction = document.getElementById(COPY_MENU_ID);
                 if (!copyMenuAction) {
                     ul.appendChild(createCopyMenuAction());
+                }
+                let pipMenuAction = document.getElementById(PIP_MENU_ID);
+                if (!pipMenuAction) {
+                    ul.appendChild(createPipMenuAction());
                 }
             } else {
                 [...ul.childNodes].forEach(el => ul.removeChild(el));
