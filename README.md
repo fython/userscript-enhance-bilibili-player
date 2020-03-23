@@ -19,6 +19,18 @@
 
 然后在 [【GreasyFork: 397885-哔哩哔哩播放器增强】](https://greasyfork.org/zh-CN/scripts/397885-%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E6%92%AD%E6%94%BE%E5%99%A8%E5%A2%9E%E5%BC%BA) 进行安装。
 
+## 开发 & 编译
+
+目前实验性地使用了 webpack + [webpack-userscript](https://github.com/momocow/webpack-userscript) 来构建脚本源码，为未来更多的扩展提供便利，也提升了代码可读性。
+
+在获取源码到本地后，你需要保证开发环境已安装 Node.js 和 NPM。
+
+然后在项目目录执行 `npm install` 安装编译所需要的依赖。
+
+执行 `npm run dev` 进行持续的开发编译，在已安装 Tampermonkey 插件的浏览器中打开 `http://127.0.0.1:10801/enhance-biliplayer.user.js` 即可安装当前编译的插件程序，每次热更新后都需要重新打开这个地址更新插件。
+
+执行 `npm run build` 对脚本进行打包输出，编译结果将存放在项目目录的 `dist` 中。
+
 ## License
 
 ```
