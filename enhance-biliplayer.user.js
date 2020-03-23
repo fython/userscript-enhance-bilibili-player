@@ -5,7 +5,7 @@
 // @description  为哔哩哔哩播放器加上复制当前播放位置链接、画中画功能
 // @author       Siubeng (fython)
 // @license      MIT
-// @require      https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js
+// @require      https://code.jquery.com/jquery-3.4.1.slim.min.js
 // @supportURL   https://github.com/fython/userscript-enhance-bilibili-player
 // @match        *://www.bilibili.com/video/*
 // ==/UserScript==
