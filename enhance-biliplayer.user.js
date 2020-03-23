@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         哔哩哔哩播放器增强
 // @namespace    https://github.com/fython/userscript-enhance-bilibili-player
-// @version      0.1.3
+// @version      0.1.4
 // @description  为哔哩哔哩播放器加上复制当前播放位置链接、画中画功能
 // @author       Siubeng (fython)
 // @license      MIT
 // @require      https://s1.hdslb.com/bfs/static/jinkela/long/js/jquery/jquery1.7.2.min.js
 // @supportURL   https://github.com/fython/userscript-enhance-bilibili-player
-// @match        *://www.bilibili.com/video/av*
+// @match        *://www.bilibili.com/video/*
 // ==/UserScript==
 
 (function() {
@@ -144,10 +144,11 @@
                 if (!copyMenuAction) {
                     ul.appendChild(createCopyMenuAction());
                 }
-                let pipMenuAction = document.getElementById(PIP_MENU_ID);
-                if (!pipMenuAction) {
-                    ul.appendChild(createPipMenuAction());
-                }
+                // B 站已经提供官方的画中画按钮，即将彻底从代码中移除。
+                // let pipMenuAction = document.getElementById(PIP_MENU_ID);
+                // if (!pipMenuAction) {
+                //     ul.appendChild(createPipMenuAction());
+                // }
             } else {
                 [...ul.childNodes].forEach(el => ul.removeChild(el));
             }
