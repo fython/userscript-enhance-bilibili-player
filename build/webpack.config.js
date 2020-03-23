@@ -22,9 +22,15 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'eslint-loader'
+                loader: ['babel-loader', 'eslint-loader']
             },
         ],
+    },
+    resolve: {
+        extensions: ['.js'],
+        alias: {
+            'jquery': 'jquery/dist/jquery.slim.js',
+        }
     },
     plugins: [
         new WebpackUserscript({
