@@ -17,6 +17,15 @@ module.exports = {
         contentBase: path.join(rootPath, 'dist'),
         port: devProxyPort,
     },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'eslint-loader'
+            },
+        ],
+    },
     plugins: [
         new WebpackUserscript({
             headers: {

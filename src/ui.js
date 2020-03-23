@@ -1,5 +1,6 @@
 import {SELECTORS, IDS} from './constants';
 
+// eslint-disable-next-line no-unused-vars
 class MenuActionItem {
     /**
      * @constructor
@@ -12,6 +13,7 @@ class MenuActionItem {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 class EnhanceUIOptions {
     /**
      * @constructor
@@ -88,7 +90,7 @@ export class EnhanceUI {
         if (container.length) {
             this.hideToast();
             const toastItem = $(`<div id="${IDS.TOAST}" class="bilibili-player-video-toast-item" style="margin-top: 4px;"></div>`);
-            const toastText = $(`<div class="bilibili-player-video-toast-item-text"></div>`);
+            const toastText = $('<div class="bilibili-player-video-toast-item-text"></div>');
             toastText.append($('<span></span>').text(message));
             toastItem.append(toastText);
             container.append(toastItem);

@@ -7,4 +7,4 @@ export default {
     TOAST_PIP_UNSUPPORTED: '您的浏览器暂不支持画中画播放，可能需要最新的 Chrome。',
     TOAST_COPY_SCREENSHOT_DONE: '已复制当前位置的视频截图到剪贴板。',
     TOAST_COPY_SCREENSHOT_NOT_READY: '视频仍在加载状态，请稍后再尝试复制截图。',
-}
+};

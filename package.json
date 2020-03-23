@@ -23,6 +23,8 @@
   "homepage": "https://github.com/fython/userscript-enhance-bilibili-player#readme",
   "devDependencies": {
     "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
+    "eslint-loader": "^3.0.3",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3",

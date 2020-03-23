@@ -60,4 +60,4 @@ export {
     copyText,
     isSupportClipboardItemAPI,
     copyCanvasImage,
-}
+};
