@@ -38,3 +38,4 @@ jobs:
         publish_branch: releases
         user_name: Siubeng Fung
         user_email: fython@163.com
+        cname: biliplayer.gwo.app

@@ -1,5 +1,6 @@
 import zh_CN from './lang/zh-CN';
 import zh_TW from './lang/zh-TW';
+import { Settings } from '../common/constants';
 
 const SELECTORS = {
     PLAYER: '#bilibiliPlayer',
@@ -11,6 +12,7 @@ const IDS = {
     MENU_COPY_TS_URL: 'copy-ts-menu-action-item',
     MENU_PIP: 'pip-action-item',
     MENU_SCREENSHOT: 'screenshot-action-item',
+    MENU_SETTINGS: 'settings-action-item',
     TOAST: 'enhance-bili-toast',
 };
 
@@ -19,8 +21,20 @@ const TEXT = {
     'zh-TW': zh_TW,
 };
 
+const HIDDEN_KEYWORDS = {
+    [Settings.MENU_SHOW_RATIO]: '画面比例',
+    [Settings.MENU_SHOW_PLAYBACK_SPEED]: '播放速度',
+    [Settings.MENU_SHOW_LIGHT_OFF]: '关灯',
+    [Settings.MENU_SHOW_MIRROR]: '镜像',
+    [Settings.MENU_SHOW_KEYMAP]: '快捷键说明',
+    [Settings.MENU_SHOW_CHANGELOG]: '更新历史',
+    [Settings.MENU_SHOW_COLOR_AND_SFX]: '视频色彩调整',
+    [Settings.MENU_SHOW_VIDEO_INFO]: '视频统计信息',
+};
+
 export {
     SELECTORS,
     IDS,
     TEXT,
+    HIDDEN_KEYWORDS,
 };

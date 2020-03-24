@@ -17,11 +17,12 @@ class MenuActionItem {
 class EnhanceUIOptions {
     /**
      * @constructor
-     * @param {({toastTimeout: number, menuActions: Array<MenuActionItem>})} data 数据
+     * @param {({toastTimeout: number, menuActions: Array<MenuActionItem>, hiddenActions: Array<String>})} data 数据
      */
-    constructor({toastTimeout = 3000, menuActions = []}) {
+    constructor({toastTimeout = 3000, menuActions = [], hiddenActions = []}) {
         this.toastTimeout = toastTimeout;
         this.menuActions = menuActions;
+        this.hiddenActions = hiddenActions;
     }
 }
 
@@ -48,12 +49,13 @@ export class EnhanceUI {
      * @param {JQuery<HTMLElement>} player
      * @param {EnhanceUIOptions} options 
      */
-    constructor(player, {toastTimeout = 3000, menuActions = []}) {
+    constructor(player, {toastTimeout = 3000, menuActions = [], hiddenActions = []}) {
         this.player = player;
         this.menu = null;
         this.lastToastCallback = null;
         this.toastTimeout = toastTimeout;
         this.menuActions = menuActions;
+        this.hiddenActions = hiddenActions;
         
         this._menuObserver = new MutationObserver(() => this.onMenuMutated(this.menu));
         this._playerObserver = new MutationObserver(() => {
@@ -117,6 +119,14 @@ export class EnhanceUI {
                 if (actionEl.length === 0) {
                     ul.append(this._createMenuAction(action));
                 }
+            });
+            const curActions = menu.find('li');
+            this.hiddenActions.forEach((text) => {
+                $.each(curActions, (_index, action) => {
+                    if (action.innerText.indexOf(text) !== -1) {
+                        action.remove();
+                    }
+                });
             });
         } else {
             ul.empty();
