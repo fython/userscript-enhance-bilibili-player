@@ -41,7 +41,8 @@ module.exports = {
                 version: isDev ? `[version]-build.[buildNo]` : `[version]`,
                 match: [
                     '*://www.bilibili.com/video/*',
-                    '*://localhost*',
+                    '*://biliplayer.gwo.app*',
+                    ...(isDev ? ['*://localhost*'] : [])
                 ],
                 grant: [
                     'GM_setValue',
