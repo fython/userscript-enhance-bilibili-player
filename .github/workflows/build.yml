@@ -35,7 +35,7 @@ jobs:
       with:
         personal_token: ${{ secrets.ACCESS_TOKEN }}
         publish_dir: ./dist
-        publish_branch: releases
+        publish_branch: gh-pages
         user_name: Siubeng Fung
         user_email: fython@163.com
         cname: biliplayer.gwo.app
