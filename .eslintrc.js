@@ -9,7 +9,9 @@ module.exports = {
     'globals': {
         'Atomics': 'readonly',
         'SharedArrayBuffer': 'readonly',
-        'ClipboardItem': 'readonly'
+        'ClipboardItem': 'readonly',
+        'EnhancePluginStore_instance': 'readonly',
+        'GM_addValueChangeListener': 'readonly'
     },
     'parserOptions': {
         'ecmaVersion': 2018,

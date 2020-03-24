@@ -39,8 +39,15 @@ module.exports = {
                 author: 'Siubeng (fython)',
                 homepage: 'https://github.com/fython/userscript-enhance-bilibili-player',
                 version: isDev ? `[version]-build.[buildNo]` : `[version]`,
-                match: '*://www.bilibili.com/video/*',
-                grant: [],
+                match: [
+                    '*://www.bilibili.com/video/*',
+                    '*://localhost*',
+                ],
+                grant: [
+                    'GM_setValue',
+                    'GM_getValue',
+                    'GM_addValueChangeListener'
+                ],
             },
             pretty: false,
             proxyScript: {

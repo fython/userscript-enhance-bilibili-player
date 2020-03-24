@@ -2,12 +2,17 @@ import { SELECTORS, IDS, TEXT } from './constants';
 import * as UI from './ui';
 import * as Storage from './util/storage';
 import * as Clipboard from './util/clipboard';
+import EnhancePluginStore from '../common/store';
 
 const LOCALIZED = TEXT[Storage.getLanguage()];
 /**
  * @type {UI.EnhanceUI}
  */
 let ui = null;
+/**
+ * @type {EnhancePluginStore}
+ */
+const store = new EnhancePluginStore();
 
 async function copyUrlWithTimestamp() {
     let video = $('video');
@@ -48,6 +53,7 @@ async function copyScreenshot() {
 }
 
 async function enhanceMain() {
+    store.installToWindow();
     const player = await UI.lazyElement(SELECTORS.PLAYER);
     const menuActions = [
         {
