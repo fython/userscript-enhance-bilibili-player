@@ -7,4 +7,5 @@ export default {
     TOAST_PIP_UNSUPPORTED: '您的瀏覽器暫不支援子母畫面播放，可能需要最新的 Chrome。',
     TOAST_COPY_SCREENSHOT_DONE: '已拷貝當前位置的視訊擷圖至剪貼板。',
     TOAST_COPY_SCREENSHOT_NOT_READY: '視訊仍在加載狀態，請稍後再嘗試拷貝擷圖。',
+    TOAST_COPY_SCREENSHOT_FAILED: '拷貝視訊擷圖失敗，檢視日誌可了解詳情。',
 };

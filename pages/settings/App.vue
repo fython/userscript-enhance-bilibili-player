@@ -2,7 +2,7 @@
   <div id="app">
     <v-app>
       <v-app-bar app>
-        <v-toolbar-title class="app-title">设置</v-toolbar-title>
+        <v-toolbar-title class="app-title">哔哩哔哩播放器增强插件</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon href="https://github.com/fython/userscript-enhance-bilibili-player">
           <v-icon>mdi-github</v-icon>
@@ -11,10 +11,10 @@
       <v-content>
         <v-tabs vertical>
           <v-tab>
-            <v-icon left>mdi-account</v-icon>基本
+            <v-icon left>mdi-tune</v-icon>基本
           </v-tab>
           <v-tab>
-            <v-icon left>mdi-lock</v-icon>关于
+            <v-icon left>mdi-information-outline</v-icon>关于
           </v-tab>
           <v-tab-item>
             <basic-tab-component></basic-tab-component>
