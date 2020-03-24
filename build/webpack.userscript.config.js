@@ -46,7 +46,8 @@ module.exports = {
                 grant: [
                     'GM_setValue',
                     'GM_getValue',
-                    'GM_addValueChangeListener'
+                    'GM_addValueChangeListener',
+                    'GM_openInTab'
                 ],
             },
             pretty: false,

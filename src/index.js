@@ -85,6 +85,13 @@ async function enhanceMain() {
             callback: copyScreenshot
         });
     }
+    menuActions.push({
+        id: IDS.MENU_SETTINGS,
+        title: LOCALIZED.ACTION_SETTINGS,
+        callback: () => {
+            GM_openInTab('https://biliplayer.gwo.app', { active: true });
+        }
+    });
     for (const [key, value] of Object.entries(HIDDEN_KEYWORDS)) {
         if (store.getValue(key, 1) !== 1) {
             hiddenActions.push(value);

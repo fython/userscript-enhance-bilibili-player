@@ -12,6 +12,7 @@ const IDS = {
     MENU_COPY_TS_URL: 'copy-ts-menu-action-item',
     MENU_PIP: 'pip-action-item',
     MENU_SCREENSHOT: 'screenshot-action-item',
+    MENU_SETTINGS: 'settings-action-item',
     TOAST: 'enhance-bili-toast',
 };
 
