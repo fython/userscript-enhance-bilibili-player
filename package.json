@@ -1,9 +1,10 @@
 {
   "name": "userscript-enhance-bilibili-player",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Enhance Bilibili Player experience",
   "main": "src/index.js",
   "scripts": {
+    "build": "npm run build:userscript && npm run build:settings",
     "build:settings": "cross-env NODE_ENV=production webpack --config build/webpack.settings.config.js",
     "build:userscript": "cross-env NODE_ENV=production webpack --config build/webpack.userscript.config.js",
     "dev:settings": "cross-env NODE_ENV=development LOCAL_DEV=1 webpack-dev-server --debug --watch --config build/webpack.settings.config.js",
