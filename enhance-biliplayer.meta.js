@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name 哔哩哔哩播放器增强
-// @version 0.1.7
+// @version 0.1.8
 // @author Siubeng (fython)
 // @description Enhance Bilibili Player experience
 // @homepage https://github.com/fython/userscript-enhance-bilibili-player
