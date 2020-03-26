@@ -3,17 +3,22 @@ import { Settings, TimestampStyle } from '../common/constants';
 import * as UI from './ui';
 import * as Storage from './util/storage';
 import * as Clipboard from './util/clipboard';
+import {RecorderController} from './util/recorder';
 import EnhancePluginStore from '../common/store';
 
 const LOCALIZED = TEXT[Storage.getLanguage()];
 /**
- * @type {UI.EnhanceUI}
+ * @type {EnhanceUI}
  */
 let ui = null;
 /**
  * @type {EnhancePluginStore}
  */
 const store = new EnhancePluginStore();
+/**
+ * @type {RecorderController}
+ */
+let recorderController = null;
 
 async function copyUrlWithTimestamp() {
     let video = $('video');
@@ -49,8 +54,8 @@ async function copyScreenshot() {
             canvas.height = video.videoHeight;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const fmt = store.getValue(Settings.SCREENSHOT_FORMAT, 'image/png') || 'image/png';
-            const quality = (fmt === 'image/png') ? 1 : ((store.getValue(Settings.SCREENSHOT_QUALITY, 100) || 100) / 100);
+            const fmt = store.screenshotFormat;
+            const quality = (fmt === 'image/png') ? 1 : (store.screenshotQuality / 100);
             try {
                 await Clipboard.copyCanvasImage(canvas, fmt, quality);
                 ui.showToast(LOCALIZED.TOAST_COPY_SCREENSHOT_DONE);
@@ -65,41 +70,98 @@ async function copyScreenshot() {
     }
 }
 
+async function startRecord() {
+    let mimeType = store.recordMimeType;
+    if (mimeType === 'default') {
+        mimeType = undefined;
+    }
+    window.console.log('Start record in mimeType=' + mimeType);
+    try {
+        recorderController = RecorderController.captureVideoElement($('video')[0], mimeType);
+        recorderController.onrecordstop = () => window.console.log('record stop');
+        recorderController.onrecorderror = (event) => window.console.error(event);
+        ui.showToast(LOCALIZED.TOAST_RECORD_STARTED);
+    } catch (e) {
+        window.console.error(e);
+        ui.showToast(LOCALIZED.TOAST_RECORD_START_FAILED);
+    }
+}
+
+async function stopRecord() {
+    if (recorderController && recorderController.isRecording) {
+        await recorderController.stopSync();
+        const videoTitle = $(SELECTORS.VIDEO_TITLE).attr('title');
+        try {
+            recorderController.save(`${videoTitle}_${bvid}_录制片段`);
+        } catch (e) {
+            window.console.log(e);
+        }
+    }
+}
+
+class EnhanceUI extends UI.EnhanceUIBase {
+    constructor(player, options) {
+        super(player, options);
+    }
+
+    onInflateMenuActions() {
+        const menuActions = [];
+        if (store.getValue(Settings.MENU_SHOW_COPY_TS_URL, 1) === 1) {
+            menuActions.push({
+                id: IDS.MENU_COPY_TS_URL,
+                title: LOCALIZED.ACTION_COPY_URL_WITH_TIMESTAMP,
+                callback: copyUrlWithTimestamp
+            });
+        }
+        if (store.getValue(Settings.MENU_SHOW_COPY_SCREENSHOT, 1) === 1) {
+            menuActions.push({
+                id: IDS.MENU_SCREENSHOT,
+                title: LOCALIZED.ACTION_COPY_SCREENSHOT,
+                callback: copyScreenshot
+            });
+        }
+        if (store.getValue(Settings.MENU_SHOW_RECORD, 1) === 1) {
+            if (recorderController == null || !recorderController.isRecording) {
+                menuActions.push({
+                    id: IDS.MENU_RECORD,
+                    title: LOCALIZED.ACTION_RECORD_START,
+                    callback: startRecord
+                });
+            } else {
+                menuActions.push({
+                    id: IDS.MENU_RECORD,
+                    title: LOCALIZED.ACTION_RECORD_STOP,
+                    callback: stopRecord
+                });
+            }
+        }
+        menuActions.push({
+            id: IDS.MENU_SETTINGS,
+            title: LOCALIZED.ACTION_SETTINGS,
+            callback: () => {
+                GM_openInTab('https://biliplayer.gwo.app', { active: true });
+            }
+        });
+        return menuActions;
+    }
+
+    onInflateHiddenActions() {
+        const hiddenActions = [];
+        for (const [key, value] of Object.entries(HIDDEN_KEYWORDS)) {
+            if (store.getValue(key, 1) !== 1) {
+                hiddenActions.push(value);
+            }
+        }
+        return hiddenActions;
+    }
+}
+
 async function enhanceMain() {
     store.installToWindow();
     const player = await UI.lazyElement(SELECTORS.PLAYER);
-    const menuActions = [];
-    const hiddenActions = [];
-
-    if (store.getValue(Settings.MENU_SHOW_COPY_TS_URL, 1) === 1) {
-        menuActions.push({
-            id: IDS.MENU_COPY_TS_URL,
-            title: LOCALIZED.ACTION_COPY_URL_WITH_TIMESTAMP,
-            callback: copyUrlWithTimestamp
-        });
-    }
-    if (store.getValue(Settings.MENU_SHOW_COPY_SCREENSHOT, 1) === 1) {
-        menuActions.push({
-            id: IDS.MENU_SCREENSHOT,
-            title: LOCALIZED.ACTION_COPY_SCREENSHOT,
-            callback: copyScreenshot
-        });
-    }
-    menuActions.push({
-        id: IDS.MENU_SETTINGS,
-        title: LOCALIZED.ACTION_SETTINGS,
-        callback: () => {
-            GM_openInTab('https://biliplayer.gwo.app', { active: true });
-        }
-    });
-    for (const [key, value] of Object.entries(HIDDEN_KEYWORDS)) {
-        if (store.getValue(key, 1) !== 1) {
-            hiddenActions.push(value);
-        }
-    }
-
-    ui = new UI.EnhanceUI(player, { menuActions, hiddenActions });
+    ui = new EnhanceUI(player);
 }
 
 // 增强插件主入口
 enhanceMain();
+Window.prototype.RecordController = RecorderController;

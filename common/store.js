@@ -84,12 +84,20 @@ class EnhancePluginStore {
         this.setValue(Settings.SCREENSHOT_FORMAT, value);
     }
 
+    get recordMimeType() {
+        return this.getValue(Settings.RECORD_MIME_TYPE, 'default');
+    }
+
+    set recordMimeType(value) {
+        this.setValue(Settings.RECORD_MIME_TYPE, value);
+    }
+
     setValue(key, value) {
         GM_setValue(key, value);
     }
 
     getValue(key, defaultValue) {
-        return GM_getValue(key, defaultValue) || defaultValue;
+        return GM_getValue(key, defaultValue);
     }
 
     addValueChangeListener(name, func) {

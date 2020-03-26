@@ -6,12 +6,15 @@ const SELECTORS = {
     PLAYER: '#bilibiliPlayer',
     MENU: 'div.bilibili-player-context-menu-container.black.bilibili-player-context-menu-origin',
     TOAST_CONTAINER: 'div.bilibili-player-video-toast-bottom',
+    VIDEO_TITLE: 'h1.video-title',
+    DANMAKU_CONTEXT_MENU: '.context-menu-danmaku',
 };
 
 const IDS = {
     MENU_COPY_TS_URL: 'copy-ts-menu-action-item',
     MENU_PIP: 'pip-action-item',
     MENU_SCREENSHOT: 'screenshot-action-item',
+    MENU_RECORD: 'record-action-item',
     MENU_SETTINGS: 'settings-action-item',
     TOAST: 'enhance-bili-toast',
 };

@@ -4,7 +4,7 @@ import {SELECTORS, IDS} from './constants';
 class MenuActionItem {
     /**
      * @constructor
-     * @param {({id: string, title: string, callback: Function})} data 数据 
+     * @param {({id: string, title: string, callback: Function})} data 数据
      */
     constructor({id, title, callback}) {
         this.id = id;
@@ -17,12 +17,10 @@ class MenuActionItem {
 class EnhanceUIOptions {
     /**
      * @constructor
-     * @param {({toastTimeout: number, menuActions: Array<MenuActionItem>, hiddenActions: Array<String>})} data 数据
+     * @param {({toastTimeout: number})} data 数据
      */
-    constructor({toastTimeout = 3000, menuActions = [], hiddenActions = []}) {
+    constructor({toastTimeout = 3000}) {
         this.toastTimeout = toastTimeout;
-        this.menuActions = menuActions;
-        this.hiddenActions = hiddenActions;
     }
 }
 
@@ -43,20 +41,18 @@ export function lazyElement(selector) {
     });
 }
 
-export class EnhanceUI {
+export class EnhanceUIBase {
     /**
      * @constructor
      * @param {JQuery<HTMLElement>} player
-     * @param {EnhanceUIOptions} options 
+     * @param {EnhanceUIOptions} options
      */
-    constructor(player, {toastTimeout = 3000, menuActions = [], hiddenActions = []}) {
+    constructor(player, {toastTimeout = 3000} = {}) {
         this.player = player;
         this.menu = null;
         this.lastToastCallback = null;
         this.toastTimeout = toastTimeout;
-        this.menuActions = menuActions;
-        this.hiddenActions = hiddenActions;
-        
+
         this._menuObserver = new MutationObserver(() => this.onMenuMutated(this.menu));
         this._playerObserver = new MutationObserver(() => {
             const menu = player.find(SELECTORS.MENU);
@@ -111,17 +107,17 @@ export class EnhanceUI {
         const ul = menu.find('ul');
         if (menu.hasClass('active')) {
             // 不要注入弹幕菜单
-            if (menu.find('.context-menu-danmaku').length) {
+            if (menu.find(SELECTORS.DANMAKU_CONTEXT_MENU).length) {
                 return;
             }
-            this.menuActions.forEach((action) => {
+            this.onInflateMenuActions().forEach((action) => {
                 const actionEl = menu.find('#' + action.id);
                 if (actionEl.length === 0) {
                     ul.append(this._createMenuAction(action));
                 }
             });
             const curActions = menu.find('li');
-            this.hiddenActions.forEach((text) => {
+            this.onInflateHiddenActions().forEach((text) => {
                 $.each(curActions, (_index, action) => {
                     if (action.innerText.indexOf(text) !== -1) {
                         action.remove();
@@ -134,16 +130,30 @@ export class EnhanceUI {
     }
 
     /**
+     * @return {Array<MenuActionItem>} 要创建的菜单选项
+     */
+    onInflateMenuActions() {
+        throw new Error('onInflateMenuActions has no implementation.');
+    }
+
+    /**
+     * @returns {Array<String>} 要隐藏的菜单关键词
+     */
+    onInflateHiddenActions() {
+        throw new Error('onInflateHiddenActions has no implementation.');
+    }
+
+    /**
      * 开始监听菜单
      */
     _bindMenu() {
         this._menuObserver.observe(this.menu[0], { childList: true, attributes: true });
         this.onMenuMutated(this.menu);
     }
-    
+
     /**
      * 创建菜单操作的元素
-     * @param {MenuActionItem} action 菜单操作 
+     * @param {MenuActionItem} action 菜单操作
      * @returns {JQuery<HTMLLIElement>}
      */
     _createMenuAction({id, title, callback}) {

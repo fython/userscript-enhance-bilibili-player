@@ -22,11 +22,18 @@
             基本
           </v-tab>
           <v-tab>
+            <v-icon left>mdi-video</v-icon>
+            录制
+          </v-tab>
+          <v-tab>
             <v-icon left>mdi-information-outline</v-icon>
             关于
           </v-tab>
           <v-tab-item>
             <basic-tab-component></basic-tab-component>
+          </v-tab-item>
+          <v-tab-item>
+            <record-tab-component></record-tab-component>
           </v-tab-item>
           <v-tab-item>
             <about-tab-component></about-tab-component>
@@ -40,6 +47,7 @@
 
 <script>
     import BasicTabComponent from './components/BasicTabComponent.vue';
+    import RecordTabComponent from './components/RecordTabComponent.vue';
     import AboutTabComponent from './components/AboutTabComponent.vue';
     import PluginUpdateDialog from './components/dialog/PluginUpdateDialog';
     import EnhancePluginStore from '../../common/store';
@@ -53,6 +61,7 @@
         }),
         components: {
             'basic-tab-component': BasicTabComponent,
+            'record-tab-component': RecordTabComponent,
             'about-tab-component': AboutTabComponent,
             'plugin-update-dialog': PluginUpdateDialog,
         },
@@ -80,6 +89,6 @@
   .app-title
     font-weight: 500
 
-    .v-tab
-      min-width: 120px
+  .v-tab
+    min-width: 120px
 </style>

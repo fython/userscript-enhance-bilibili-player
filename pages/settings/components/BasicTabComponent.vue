@@ -147,6 +147,7 @@
             enhanceMenuItems: [
                 {id: Settings.MENU_SHOW_COPY_TS_URL, title: '复制当前时间位置的视频链接'},
                 {id: Settings.MENU_SHOW_COPY_SCREENSHOT, title: '复制当前时间位置的视频截图'},
+                {id: Settings.MENU_SHOW_RECORD, title: '录制视频选项'},
             ],
             enhanceMenuSelectedItems: [],
             tsStyles: [
