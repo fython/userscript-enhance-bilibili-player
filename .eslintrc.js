@@ -11,7 +11,8 @@ module.exports = {
         'SharedArrayBuffer': 'readonly',
         'ClipboardItem': 'readonly',
         'EnhancePluginStore_instance': 'readonly',
-        'GM_addValueChangeListener': 'readonly'
+        'GM_addValueChangeListener': 'readonly',
+        'bvid': 'readonly',
     },
     'parserOptions': {
         'ecmaVersion': 2018,
