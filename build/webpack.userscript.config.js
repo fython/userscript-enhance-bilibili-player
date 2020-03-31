@@ -6,6 +6,12 @@ const devProxyPort = process.env.DEV_PROXY_PORT || '10801';
 
 const rootPath = path.resolve(__dirname, '..');
 
+const userscriptHeaders = require('./userscript.headers');
+if (isDev) {
+    userscriptHeaders.version = `[version]-build.[buildNo]`;
+    userscriptHeaders.match.push('*://localhost*');
+}
+
 module.exports = {
     mode: isDev ? 'development' : 'production',
     entry: path.resolve(rootPath, 'src', 'index.js'),
@@ -34,24 +40,7 @@ module.exports = {
     },
     plugins: [
         new WebpackUserscript({
-            headers: {
-                name: '哔哩哔哩播放器增强',
-                author: 'Siubeng (fython)',
-                homepage: 'https://github.com/fython/userscript-enhance-bilibili-player',
-                version: isDev ? `[version]-build.[buildNo]` : `[version]`,
-                match: [
-                    '*://www.bilibili.com/video/*',
-                    '*://www.bilibili.com/bangumi/play/ep*',
-                    '*://biliplayer.gwo.app/*',
-                    ...(isDev ? ['*://localhost*'] : [])
-                ],
-                grant: [
-                    'GM_setValue',
-                    'GM_getValue',
-                    'GM_addValueChangeListener',
-                    'GM_openInTab'
-                ],
-            },
+            headers: userscriptHeaders,
             pretty: false,
             proxyScript: {
                 baseUrl: `http://127.0.0.1:${devProxyPort}`,
