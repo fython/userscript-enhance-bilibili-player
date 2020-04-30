@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.9.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "vue": "^2.6.11",
     "vuetify": "^2.2.18"
   }
