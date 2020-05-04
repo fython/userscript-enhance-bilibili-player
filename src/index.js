@@ -7,6 +7,7 @@ import {RecorderController} from './util/recorder';
 import EnhancePluginStore from '../common/store';
 
 const LOCALIZED = TEXT[Storage.getLanguage()];
+let lastPlayerElement = null;
 /**
  * @type {EnhanceUI}
  */
@@ -104,6 +105,10 @@ class EnhanceUI extends UI.EnhanceUIBase {
         super(player, options);
     }
 
+    async destroy() {
+        await stopRecord();
+    }
+
     onInflateMenuActions() {
         const menuActions = [];
         if (store.getValue(Settings.MENU_SHOW_COPY_TS_URL, 1) === 1) {
@@ -158,7 +163,23 @@ class EnhanceUI extends UI.EnhanceUIBase {
 
 async function enhanceMain() {
     store.installToWindow();
+    const playerWrapper = await UI.lazyElement(SELECTORS.PLAYER_WRAPPER);
+    const mutationObserver = new MutationObserver(bindPlayer);
+    mutationObserver.observe(playerWrapper[0], { childList: true });
+    await bindPlayer();
+}
+
+async function bindPlayer() {
+    console.log('bindPlayer');
     const player = await UI.lazyElement(SELECTORS.PLAYER);
+    if (lastPlayerElement === player) {
+        console.log('isSameElement');
+        return;
+    }
+    if (ui !== null) {
+        await ui.destroy();
+    }
+    lastPlayerElement = player;
     ui = new EnhanceUI(player);
 }
 
