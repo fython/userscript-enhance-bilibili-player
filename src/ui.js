@@ -26,16 +26,27 @@ class EnhanceUIOptions {
 
 /**
  * 懒加载 selector 指定的元素
- * @param {string} selector 选择器
+ * @param {string|string[]} selector 选择器
  * @returns {Promise<JQuery<HTMLElement>>}
  */
 export function lazyElement(selector) {
     return new Promise((resolve) => {
         const callback = setInterval(() => {
-            const injectNode = $(selector);
-            if (injectNode.length) {
-                clearInterval(callback);
-                resolve(injectNode);
+            if (selector instanceof Array) {
+                for (let item of selector) {
+                    const injectNode = $(item);
+                    if (injectNode.length) {
+                        clearInterval(callback);
+                        resolve(injectNode);
+                        break;
+                    }
+                }
+            } else {
+                const injectNode = $(selector);
+                if (injectNode.length) {
+                    clearInterval(callback);
+                    resolve(injectNode);
+                }
             }
         });
     });

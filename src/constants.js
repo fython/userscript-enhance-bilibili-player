@@ -5,6 +5,7 @@ import { Settings } from '../common/constants';
 const SELECTORS = {
     PLAYER: '#bilibiliPlayer',
     PLAYER_WRAPPER: '#playerWrap div',
+    PLAYER_MODULE: '#player_module div',
     MENU: 'div.bilibili-player-context-menu-container.black.bilibili-player-context-menu-origin',
     TOAST_CONTAINER: 'div.bilibili-player-video-toast-bottom',
     VIDEO_TITLE: 'h1.video-title',

@@ -163,7 +163,7 @@ class EnhanceUI extends UI.EnhanceUIBase {
 
 async function enhanceMain() {
     store.installToWindow();
-    const playerWrapper = await UI.lazyElement(SELECTORS.PLAYER_WRAPPER);
+    const playerWrapper = await UI.lazyElement([SELECTORS.PLAYER_WRAPPER, SELECTORS.PLAYER_MODULE]);
     const mutationObserver = new MutationObserver(bindPlayer);
     mutationObserver.observe(playerWrapper[0], { childList: true });
     await bindPlayer();
