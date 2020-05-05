@@ -11,6 +11,7 @@ module.exports = {
         '*://bangumi.bilibili.com/anime/*',
         '*://bangumi.bilibili.com/movie/*',
         '*://www.bilibili.com/bangumi/media/md*',
+        '*://www.bilibili.com/bangumi/play/*',
         '*://www.bilibili.com/blackboard/html5player.html*',
         '*://www.bilibili.com/medialist/play/ml*',
         '*://link.acg.tv/forum.php*',
