@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name 哔哩哔哩播放器增强
-// @version 0.1.12
+// @version 0.1.13
 // @author Siubeng (fython)
 // @description Enhance Bilibili Player experience
 // @homepage https://github.com/fython/userscript-enhance-bilibili-player
@@ -11,6 +11,7 @@
 // @match *://bangumi.bilibili.com/anime/*
 // @match *://bangumi.bilibili.com/movie/*
 // @match *://www.bilibili.com/bangumi/media/md*
+// @match *://www.bilibili.com/bangumi/play/*
 // @match *://www.bilibili.com/blackboard/html5player.html*
 // @match *://www.bilibili.com/medialist/play/ml*
 // @match *://link.acg.tv/forum.php*
