@@ -14,6 +14,7 @@ module.exports = {
         '*://www.bilibili.com/bangumi/play/*',
         '*://www.bilibili.com/blackboard/html5player.html*',
         '*://www.bilibili.com/medialist/play/ml*',
+        '*://live.bilibili.com/*',
         '*://link.acg.tv/forum.php*',
         '*://biliplayer.gwo.app/*',
     ],

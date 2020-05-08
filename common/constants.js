@@ -13,6 +13,7 @@ export const Settings = {
     MENU_SHOW_COPY_TS_URL: 'menu_show_copy_ts_url',
     MENU_SHOW_COPY_SCREENSHOT: 'menu_show_copy_screenshot',
     MENU_SHOW_RECORD: 'menu_show_record',
+    LIVE_MENU_SHOW_PIP: 'menu_show_pip',
     TS_URL_STYLE: 'timestamp_url_style',
     SCREENSHOT_FORMAT: 'screenshot_format',
     SCREENSHOT_QUALITY: 'screenshot_quality',
