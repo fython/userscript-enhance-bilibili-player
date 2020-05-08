@@ -10,6 +10,8 @@ const SELECTORS = {
     TOAST_CONTAINER: 'div.bilibili-player-video-toast-bottom',
     VIDEO_TITLE: 'h1.video-title',
     DANMAKU_CONTEXT_MENU: '.context-menu-danmaku',
+    LIVE_PLAYER: '.bilibili-live-player',
+    LIVE_MENU: 'div.bilibili-live-player-context-menu-container',
 };
 
 const IDS = {
@@ -37,9 +39,12 @@ const HIDDEN_KEYWORDS = {
     [Settings.MENU_SHOW_VIDEO_INFO]: '视频统计信息',
 };
 
+const LIVE_URL_PATTERN = /http(s)?:\/\/live\.bilibili\.com\/.+/;
+
 export {
     SELECTORS,
     IDS,
     TEXT,
     HIDDEN_KEYWORDS,
+    LIVE_URL_PATTERN,
 };

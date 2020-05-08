@@ -154,6 +154,10 @@ export class EnhanceUIBase {
         throw new Error('onInflateHiddenActions has no implementation.');
     }
 
+    destroy() {
+        // noop in default implementation
+    }
+
     /**
      * 开始监听菜单
      */
@@ -176,6 +180,106 @@ export class EnhanceUIBase {
         li.mouseleave(() => li.removeClass('hover'));
         // 选项点击事件
         li.click(callback);
+        return li;
+    }
+}
+
+export class LiveEnhanceUIBase {
+    /**
+     * @constructor
+     * @param {JQuery<HTMLElement>} player
+     * @param {EnhanceUIOptions} options
+     */
+    constructor(player, options) {
+        this.player = player;
+        this.menu = null;
+        this.options = options;
+        this.closeMenuA = null;
+
+        this._playerObserver = new MutationObserver(() => {
+            const menu = player.find(SELECTORS.LIVE_MENU);
+            if (menu.length) {
+                console.log(menu);
+                this.menu = menu;
+                this._playerObserver.disconnect();
+                this._bindMenu();
+            }
+        });
+        this._playerObserver.observe(player[0], { childList: true });
+    }
+
+    /**
+     * 隐藏 Toast
+     */
+    hideToast() {
+    }
+
+    /**
+     * 显示文本为 message 的 Toast
+     * @param {string} message 文本
+     */
+    showToast(message) {
+        window.alert(message);
+    }
+
+    /**
+     * @return {Array<MenuActionItem>} 要创建的菜单选项
+     */
+    onInflateMenuActions() {
+        throw new Error('onInflateMenuActions has no implementation.');
+    }
+
+    /**
+     * @returns {Array<String>} 要隐藏的菜单关键词
+     */
+    onInflateHiddenActions() {
+        throw new Error('onInflateHiddenActions has no implementation.');
+    }
+
+    destroy() {
+        // noop in default implementation
+    }
+
+    /**
+     * 开始监听菜单
+     */
+    _bindMenu() {
+        const ul = this.menu.find('ul').first();
+        const curActions = this.menu.find('li');
+        this.closeMenuA = curActions.find('a:contains(\'关闭\')');
+        this.onInflateMenuActions().forEach((action) => {
+            const actionEl = this.menu.find('#' + action.id);
+            if (actionEl.length === 0) {
+                if (this.closeMenuA.length) {
+                    this._createMenuAction(action).insertBefore(this.closeMenuA.parent());
+                } else {
+                    ul.append(this._createMenuAction(action));
+                }
+            }
+        });
+        this.onInflateHiddenActions().forEach((text) => {
+            $.each(curActions, (_index, action) => {
+                if (action.innerText.indexOf(text) !== -1) {
+                    action.remove();
+                }
+            });
+        });
+    }
+
+    /**
+     * 创建菜单操作的元素
+     * @param {MenuActionItem} action 菜单操作
+     * @returns {JQuery<HTMLLIElement>}
+     */
+    _createMenuAction({id, title, callback}) {
+        const li = $(`<li id="${id}" class="context-menu-function"></li>`);
+        const a = $('<a class="context-menu-a js-blp-action" title></a>').text(title);
+        li.append(a);
+        // 选项点击事件
+        li.click(() => {
+            this.closeMenuA[0].click();
+            callback();
+        });
         return li;
     }
 }
