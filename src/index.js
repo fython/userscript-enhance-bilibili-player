@@ -246,9 +246,23 @@ async function enhanceMain() {
         ui = new MainEnhanceUI(player);
     };
 
+    // 自动下一分P播放器只改变 InnerContainer 中的元素，不会触发 PlayerWrapper 的 MutationObserver 回调
+    const bindPlayerWrapper = async () => {
+        const playerInnerContainer = await UI.lazyElement(SELECTORS.PLAYER_INNER_CONTAINER);
+
+        const mutationObserver = new MutationObserver(bindPlayer);
+        mutationObserver.observe(playerInnerContainer[0], { childList: true });
+
+        // 首次尝试绑定
+        await bindPlayer();
+    };
+
     const playerWrapper = await UI.lazyElement([SELECTORS.PLAYER_WRAPPER, SELECTORS.PLAYER_MODULE]);
-    const mutationObserver = new MutationObserver(bindPlayer);
+
+    const mutationObserver = new MutationObserver(bindPlayerWrapper);
     mutationObserver.observe(playerWrapper[0], { childList: true });
+
+    // 首次尝试绑定
     await bindPlayer();
 }
 
