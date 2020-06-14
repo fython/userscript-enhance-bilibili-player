@@ -1,6 +1,6 @@
 {
   "name": "userscript-enhance-bilibili-player",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Enhance Bilibili Player experience",
   "main": "src/index.js",
   "scripts": {
@@ -44,8 +44,8 @@
     "vuetify-loader": "^1.4.3",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.3",
-    "webpack-userscript": "^2.5.1"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-userscript": "^2.5.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.9.2",
