@@ -4,6 +4,7 @@ import { Settings } from '../common/constants';
 
 const SELECTORS = {
     PLAYER: '#bilibiliPlayer',
+    PLAYER_INNER_CONTAINER: '#playerWrap > div > .player',
     PLAYER_WRAPPER: '#playerWrap div',
     PLAYER_MODULE: '#player_module div',
     MENU: 'div.bilibili-player-context-menu-container.black.bilibili-player-context-menu-origin',
