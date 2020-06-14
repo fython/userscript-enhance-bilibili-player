@@ -135,8 +135,6 @@ export class EnhanceUIBase {
                     }
                 });
             });
-        } else {
-            ul.empty();
         }
     }
 
