@@ -1,7 +1,7 @@
 /**
  * 读取 Cookie 键值
  * @param {string} key Cookie 键
- * @returns {string?}
+ * @returns {string | undefined}
  */
 export function getCookie(key) {
     const keyValue = document.cookie.match(`(^|;) ?${key}=([^;]*)(;|$)`);

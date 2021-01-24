@@ -85,11 +85,39 @@ class EnhancePluginStore {
     }
 
     get recordMimeType() {
-        return this.getValue(Settings.RECORD_MIME_TYPE, 'default');
+        return GM_getValue(Settings.RECORD_MIME_TYPE, 'default');
     }
 
     set recordMimeType(value) {
-        this.setValue(Settings.RECORD_MIME_TYPE, value);
+        GM_setValue(Settings.RECORD_MIME_TYPE, value);
+    }
+
+    /**
+     * @returns {boolean} value
+     */
+    get cleanUrl() {
+        return GM_getValue(Settings.CLEAN_URL, true);
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    set cleanUrl(value) {
+        GM_setValue(Settings.CLEAN_URL, value);
+    }
+
+    /**
+     * @returns {boolean} value
+     */
+    get timestampUseMicroseconds() {
+        return GM_getValue(Settings.TS_USE_MICROSECONDS, false);
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    set timestampUseMicroseconds(value) {
+        GM_setValue(Settings.TS_USE_MICROSECONDS, value);
     }
 
     setValue(key, value) {

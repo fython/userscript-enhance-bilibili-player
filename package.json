@@ -1,8 +1,9 @@
 {
   "name": "userscript-enhance-bilibili-player",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Enhance Bilibili Player experience",
   "main": "src/index.js",
+  "types": "types",
   "scripts": {
     "build": "npm run build:userscript && npm run build:settings",
     "build:settings": "cross-env NODE_ENV=production webpack --config build/webpack.settings.config.js",
@@ -25,32 +26,32 @@
   },
   "homepage": "https://github.com/fython/userscript-enhance-bilibili-player#readme",
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-runtime": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "babel-loader": "^8.1.0",
-    "cross-env": "^7.0.2",
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-loader": "^8.2.2",
+    "cross-env": "^7.0.3",
     "css-loader": "^3.4.2",
     "deepmerge": "^4.2.2",
     "eslint": "^6.8.0",
     "eslint-loader": "^3.0.3",
     "fibers": "^4.0.2",
-    "html-webpack-plugin": "^4.0.1",
-    "sass": "^1.26.3",
+    "html-webpack-plugin": "^4.5.1",
+    "sass": "^1.32.5",
     "sass-loader": "^8.0.2",
-    "vue-loader": "^15.9.1",
+    "vue-loader": "^15.9.6",
     "vue-style-loader": "^4.1.2",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.4.3",
+    "vue-template-compiler": "^2.6.12",
+    "vuetify-loader": "^1.6.0",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^3.11.2",
     "webpack-userscript": "^2.5.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.9.2",
-    "jquery": "^3.5.0",
-    "vue": "^2.6.11",
-    "vuetify": "^2.2.18"
+    "@babel/runtime": "^7.12.5",
+    "jquery": "^3.5.1",
+    "vue": "^2.6.12",
+    "vuetify": "^2.4.3"
   }
 }

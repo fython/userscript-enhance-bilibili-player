@@ -72,6 +72,7 @@
           <v-list-item-content>
             <v-list-item-title>时间格式（不影响跳转）</v-list-item-title>
             <v-select
+                :disabled="currentTsUseMs"
                 v-model="currentTsStyle"
                 :items="tsStyles"
                 item-text="title"
@@ -80,6 +81,28 @@
                 hide-details
                 single-line></v-select>
           </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-spray-bottle</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>清爽的 URL 参数</v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-checkbox v-model="currentCleanUrl"></v-checkbox>
+          </v-list-item-action>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-clock-time-one-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>精确到毫秒（不支持上述时间格式）</v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-checkbox v-model="currentTsUseMs"></v-checkbox>
+          </v-list-item-action>
         </v-list-item>
       </v-list>
     </v-card>
@@ -155,6 +178,8 @@
                 {value: 1, title: 'https://www.bilibili.com/video/XXXXXX?t=[秒数]'},
             ],
             currentTsStyle: 0,
+            currentCleanUrl: false,
+            currentTsUseMs: false,
             imageFormats: [
                 {mime: 'image/png', title: 'PNG（推荐）'},
                 {mime: 'image/jpeg', title: 'JPEG'},
@@ -190,6 +215,12 @@
             currentImageQuality(newValue) {
                 this.store.screenshotQuality = newValue;
             },
+            currentCleanUrl(newValue) {
+                this.store.cleanUrl = newValue;
+            },
+            currentTsUseMs(newValue) {
+                this.store.timestampUseMicroseconds = newValue;
+            },
         },
         methods: {
             async initStore() {
@@ -211,6 +242,8 @@
                 this.currentTsStyle = this.store.timestampStyle;
                 this.currentImageFormat = this.store.screenshotFormat;
                 this.currentImageQuality = this.store.screenshotQuality;
+                this.currentCleanUrl = this.store.cleanUrl;
+                this.currentTsUseMs = this.store.timestampUseMicroseconds;
             }
         },
         mounted() {
