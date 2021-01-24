@@ -42,10 +42,15 @@ const HIDDEN_KEYWORDS = {
 
 const LIVE_URL_PATTERN = /http(s)?:\/\/live\.bilibili\.com\/.+/;
 
+const USEFUL_VIDEO_URL_PARAMS = [
+    'p'
+];
+
 export {
     SELECTORS,
     IDS,
     TEXT,
     HIDDEN_KEYWORDS,
     LIVE_URL_PATTERN,
+    USEFUL_VIDEO_URL_PARAMS,
 };

@@ -1,4 +1,4 @@
-import { SELECTORS, IDS, TEXT, HIDDEN_KEYWORDS, LIVE_URL_PATTERN } from './constants';
+import { SELECTORS, IDS, TEXT, HIDDEN_KEYWORDS, LIVE_URL_PATTERN, USEFUL_VIDEO_URL_PARAMS } from './constants';
 import { Settings, TimestampStyle } from '../common/constants';
 import * as UI from './ui';
 import * as Storage from './util/storage';
@@ -31,6 +31,19 @@ class MainEnhanceUI extends UI.EnhanceUIBase {
         if (video.length) {
             video = video[0];
             const url = new URL(window.location.href);
+            // 清理 Hash
+            url.hash = '';
+            // 根据用户设定清理剩余的参数
+            if (store.cleanUrl) {
+                const leftParams = [...url.searchParams].filter(([key]) => USEFUL_VIDEO_URL_PARAMS.indexOf(key) !== -1);
+                if (leftParams.length) {
+                    url.search = '?' + leftParams.map(([k, v]) => `${k}=${v}`)
+                        .reduce((prev, next) => `${prev}&${next}`);
+                } else {
+                    url.search = '';
+                }
+            }
+            // 设定当前时间参数
             const time = parseInt(video.currentTime);
             const h = parseInt(time / 60 / 60);
             const m = parseInt(time / 60 % 60);
@@ -45,6 +58,7 @@ class MainEnhanceUI extends UI.EnhanceUIBase {
                 url.searchParams.set('t', time);
             }
 
+            // 复制 URL 到剪贴板
             if (await Clipboard.copyText(url.toString())) {
                 const tsText = '' + (h > 0 ? '' + h + ':' : '') + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
                 ui.showToast(LOCALIZED.TOAST_COPY_URL_WITH_TIMESTAMP_DONE(tsText));

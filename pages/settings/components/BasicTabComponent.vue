@@ -81,6 +81,17 @@
                 single-line></v-select>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-spray-bottle</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>清爽的 URL 参数</v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-checkbox v-model="currentCleanUrl"></v-checkbox>
+          </v-list-item-action>
+        </v-list-item>
       </v-list>
     </v-card>
 
@@ -155,6 +166,7 @@
                 {value: 1, title: 'https://www.bilibili.com/video/XXXXXX?t=[秒数]'},
             ],
             currentTsStyle: 0,
+            currentCleanUrl: false,
             imageFormats: [
                 {mime: 'image/png', title: 'PNG（推荐）'},
                 {mime: 'image/jpeg', title: 'JPEG'},
@@ -190,6 +202,9 @@
             currentImageQuality(newValue) {
                 this.store.screenshotQuality = newValue;
             },
+            currentCleanUrl(newValue) {
+                this.store.cleanUrl = newValue;
+            },
         },
         methods: {
             async initStore() {
@@ -211,6 +226,7 @@
                 this.currentTsStyle = this.store.timestampStyle;
                 this.currentImageFormat = this.store.screenshotFormat;
                 this.currentImageQuality = this.store.screenshotQuality;
+                this.currentCleanUrl = this.store.cleanUrl;
             }
         },
         mounted() {

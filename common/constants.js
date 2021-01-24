@@ -18,6 +18,7 @@ export const Settings = {
     SCREENSHOT_FORMAT: 'screenshot_format',
     SCREENSHOT_QUALITY: 'screenshot_quality',
     RECORD_MIME_TYPE: 'record_mime_type',
+    CLEAN_URL: 'clean_url',
 };
 
 /**
