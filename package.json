@@ -3,6 +3,7 @@
   "version": "0.2.2",
   "description": "Enhance Bilibili Player experience",
   "main": "src/index.js",
+  "types": "types",
   "scripts": {
     "build": "npm run build:userscript && npm run build:settings",
     "build:settings": "cross-env NODE_ENV=production webpack --config build/webpack.settings.config.js",
