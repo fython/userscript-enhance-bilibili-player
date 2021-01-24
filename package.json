@@ -1,6 +1,6 @@
 {
   "name": "userscript-enhance-bilibili-player",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Enhance Bilibili Player experience",
   "main": "src/index.js",
   "types": "types",
