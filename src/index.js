@@ -44,23 +44,30 @@ class MainEnhanceUI extends UI.EnhanceUIBase {
                 }
             }
             // 设定当前时间参数
-            const time = parseInt(video.currentTime);
-            const h = parseInt(time / 60 / 60);
-            const m = parseInt(time / 60 % 60);
-            const s = parseInt(time % 60);
-            if (store.timestampStyle === TimestampStyle.HMS) {
-                let tsArg = '';
-                if (h > 0) tsArg += h + 'h';
-                if (m > 0) tsArg += m + 'm';
-                tsArg += s + 's';
-                url.searchParams.set('t', tsArg);
+            let tsText = '';
+            if (store.timestampUseMicroseconds) {
+                const ms = Math.floor(video.currentTime * 1e3);
+                url.searchParams.set('start_progress', String(ms));
+                tsText += ms + 'ms';
             } else {
-                url.searchParams.set('t', time);
+                const time = parseInt(video.currentTime);
+                const h = parseInt(time / 60 / 60);
+                const m = parseInt(time / 60 % 60);
+                const s = parseInt(time % 60);
+                if (store.timestampStyle === TimestampStyle.HMS) {
+                    let tsArg = '';
+                    if (h > 0) tsArg += h + 'h';
+                    if (m > 0) tsArg += m + 'm';
+                    tsArg += s + 's';
+                    url.searchParams.set('t', tsArg);
+                } else {
+                    url.searchParams.set('t', time);
+                }
+                tsText += (h > 0 ? '' + h + ':' : '') + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
             }
 
             // 复制 URL 到剪贴板
             if (await Clipboard.copyText(url.toString())) {
-                const tsText = '' + (h > 0 ? '' + h + ':' : '') + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
                 ui.showToast(LOCALIZED.TOAST_COPY_URL_WITH_TIMESTAMP_DONE(tsText));
             } else {
                 ui.showToast(LOCALIZED.TOAST_COPY_URL_FAILED);

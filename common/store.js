@@ -106,6 +106,20 @@ class EnhancePluginStore {
         GM_setValue(Settings.CLEAN_URL, value);
     }
 
+    /**
+     * @returns {boolean} value
+     */
+    get timestampUseMicroseconds() {
+        return GM_getValue(Settings.TS_USE_MICROSECONDS, false);
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    set timestampUseMicroseconds(value) {
+        GM_setValue(Settings.TS_USE_MICROSECONDS, value);
+    }
+
     setValue(key, value) {
         GM_setValue(key, value);
     }
