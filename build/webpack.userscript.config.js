@@ -14,6 +14,10 @@ if (isDev) {
 
 module.exports = {
     mode: isDev ? 'development' : 'production',
+    optimization: {
+        // 由于 GreasyFork 的安全限制，构建产物不能被混淆
+        minimize: false,
+    },
     entry: path.resolve(rootPath, 'src', 'index.js'),
     output: {
         path: path.resolve(rootPath, 'dist'),
