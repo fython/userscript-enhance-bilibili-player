@@ -54,7 +54,7 @@ async function captureVideoShot(): Promise<void> {
   }
 }
 
-function register() {
+function register(): void {
   registerMenuItem({
     dataAction: 'exbiliplayer-shot',
     label: '立即截取视频画面',

@@ -6,12 +6,14 @@ import {
   unregisterAllMenuItems,
 } from '@/components/player-menu';
 import VideoShotFeature from '@/features/video-shot';
+import VideoRecordFeature from '@/features/video-record';
 
 onMounted(() => {
   initMenuInjector();
 
   const enabledFeatures = [
     VideoShotFeature,
+    VideoRecordFeature,
   ];
 
   for (const f of enabledFeatures) {
