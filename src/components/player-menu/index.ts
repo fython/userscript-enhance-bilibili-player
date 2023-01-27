@@ -32,7 +32,7 @@ function injectMenuItem({ dataAction, label, onClick }: PlayerMenuItem): void {
   menuElement.append(li);
 }
 
-function clearMenuInjector() {
+export function clearMenuInjector() {
   if (menuMutationObserver) {
     menuMutationObserver.disconnect();
   }
@@ -89,6 +89,10 @@ export function registerMenuItem(item: PlayerMenuItem): void {
 
 export function unregisterMenuItem(dataAction: string): void {
   // TODO
+}
+
+export function unregisterAllMenuItems(): void {
+  registeredMenuItems.splice(0, registerMenuItem.length);
 }
 
 export type {

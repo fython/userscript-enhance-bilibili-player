@@ -1,16 +1,29 @@
 <script setup lang="ts">
-import { initMenuInjector } from '@/components/player-menu';
+import { onMounted, onUnmounted } from 'vue';
+import {
+  initMenuInjector,
+  clearMenuInjector,
+  unregisterAllMenuItems,
+} from '@/components/player-menu';
 import VideoShotFeature from '@/features/video-shot';
 
-initMenuInjector();
+onMounted(() => {
+  initMenuInjector();
 
-const enabledFeatures = [
-  VideoShotFeature,
-];
+  const enabledFeatures = [
+    VideoShotFeature,
+  ];
 
-for (const f of enabledFeatures) {
-  f.register();
-}
+  for (const f of enabledFeatures) {
+    f.register();
+  }
+});
+
+onUnmounted(() => {
+  clearMenuInjector();
+  unregisterAllMenuItems();
+});
+
 </script>
 
 <template>
